@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maze Pro: Combat Protocol</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="aim-up">
+  <div id="loading-overlay">
+    <div class="loader-spinner"></div>
+    <div id="loading-text" style="font-weight: 600;">System Initializing...</div>
+  </div>
+
+  <div id="app-shell">
+    <header>
+      <h1>Maze Pro <span style="color: var(--accent); font-size: 12px;">EXPLORER</span></h1>
+      <div id="status-msg">Neural Link Standby</div>
+      <div class="difficulty-selector">
+        <button onclick="Game.start('easy')" id="btn-easy" class="diff-btn">Easy</button>
+        <button onclick="Game.start('medium')" id="btn-medium" class="diff-btn active">Medium</button>
+        <button onclick="Game.start('hard')" id="btn-hard" class="diff-btn">Hard</button>
+      </div>
+    </header>
+
+    <div id="viewport">
+      <div id="game-container"></div>
+    </div>
+
+    <aside>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div class="card"><div class="stat-label">💎</div><div class="stat-value" id="crystal-count">0/0</div></div>
+        <div class="card"><div class="stat-label">⏱️</div><div class="stat-value" id="timer">0s</div></div>
+      </div>
+      <div class="card">
+        <div class="stat-label">Mission Guide</div>
+        <div style="font-size: 10px; color: var(--secondary-text); line-height: 1.5;">
+          • <b>Command:</b> Type moves or goals<br>
+          • <b>Objective:</b> Collect all 💎 and reach 🏁
+        </div>
+      </div>
+      <div class="card"><div class="stat-label">Neural Logic</div><div id="thought-process">...</div></div>
+      <div class="card" style="flex: 1; display: flex; flex-direction: column;"><div class="stat-label">Activity</div><div id="history"></div></div>
+    </aside>
+
+    <div id="input-section">
+      <input type="text" id="command" placeholder="Enter tactical protocol...">
+      <button id="send-btn" class="action-btn">EXECUTE</button>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
