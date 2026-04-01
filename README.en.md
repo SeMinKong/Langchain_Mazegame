@@ -1,10 +1,10 @@
-# Maze Pro: AI-Powered Combat Protocol 🕹️
+# Maze Pro: AI-Powered Combat Protocol
 
 **[한국어 버전](./README.md)**
 
 An interactive maze exploration game powered by **LangChain** and **Ollama**. Unlike traditional maze games, players navigate through natural language commands interpreted by a local LLM, creating a unique synergy between classic gameplay and modern AI.
 
-## 🚀 Key Features
+## Key Features
 
 - **AI-Driven Navigation**: Uses **LangChain** to parse natural language commands and translate them into executable movement logic.
 - **Local LLM Integration**: Runs **llama3.2:3b** via **Ollama** for private, offline, and low-latency AI responses.
@@ -12,14 +12,14 @@ An interactive maze exploration game powered by **LangChain** and **Ollama**. Un
 - **Real-time AI Reasoning**: Displays the "Neural Logic" (AI's thought process) as it calculates the best path to crystals and the exit.
 - **Responsive Web UI**: A sleek, dark-themed interface built with Vanilla JS and CSS3.
 
-## 🛠 Tech Stack
+## Tech Stack
 
 - **AI Engine**: LangChain, Ollama (llama3.2:3b)
 - **Backend**: Node.js, Express.js
 - **Frontend**: Vanilla JavaScript, CSS3
 - **Future Plan**: Migration to React 19 & TypeScript
 
-## 🏗 Project Structure
+## Project Structure
 
 ```text
 ├── index.mjs        # Backend server with LangChain integration
@@ -30,7 +30,7 @@ An interactive maze exploration game powered by **LangChain** and **Ollama**. Un
 └── maze-game/       # (Work-in-progress) React migration project
 ```
 
-## 🧠 Technical Highlights
+## Technical Highlights
 
 ### 1. Intelligent Command Interpretation
 I implemented a robust prompt engineering strategy that feeds the entire maze structure into the LLM's system message. This allows the AI to act as a "tactical guide" that understands spatial constraints and provides valid JSON movement paths.
@@ -38,7 +38,7 @@ I implemented a robust prompt engineering strategy that feeds the entire maze st
 ### 2. Recursive Backtracking Maze Generation
 To ensure every maze is solvable and "perfect" (no loops, all areas reachable), I implemented a DFS-based generation algorithm that creates a different challenge for every session.
 
-## 🏁 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Node.js (v18+)
@@ -53,12 +53,12 @@ npm start
 ```
 Access the game at `http://localhost:8000`.
 
-## 🎮 How to Play
+## How to Play
 - **Select Difficulty**: Choose from Easy, Medium, or Hard.
 - **Enter Commands**: Type things like "move right 3 steps" or "find the nearest crystal".
-- **Goal**: Collect all crystals (💎) and reach the exit (🏁).
+- **Goal**: Collect all crystals () and reach the exit ().
 
-> 💡 **Need more details?**
+>  **Need more details?**
 > For specific API payloads, the DFS algorithm implementation, and LLM parameter choices, please refer to the [Detailed Manual (DETAILS.en.md)](./DETAILS.en.md).
 
 ---
