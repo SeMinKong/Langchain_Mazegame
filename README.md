@@ -4,6 +4,10 @@
 
 **LangChain**과 **Ollama**를 활용하여 로컬 AI와 함께 미로를 탐험하는 인터랙티브 게임, **Maze Pro**입니다. 단순히 키보드로 조작하는 기존 미로 게임과 달리, 플레이어의 자연어 명령을 AI가 해석하여 최적의 경로를 제안하는 독특한 사용자 경험을 제공합니다.
 
+**Demo**
+
+<video src="https://github.com/user-attachments/assets/026a9755-f771-4a47-ba00-288c7d07dcc4" width="600" controls></video>
+
 ## 주요 특징
 
 - **AI 기반 내비게이션**: **LangChain**을 통해 사용자의 자연어 명령을 해석하고, 실행 가능한 이동 로직으로 변환합니다.
