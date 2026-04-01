@@ -49,7 +49,7 @@ To ensure every maze is solvable and "perfect" (no loops, all areas reachable), 
 git clone <repository-url>
 cd Langchain_Mazegame
 npm install
-npm start
+node index.mjs
 ```
 Access the game at `http://localhost:8000`.
 
