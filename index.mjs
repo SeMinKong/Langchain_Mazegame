@@ -26,24 +26,24 @@ const llm = await initChatModel("llama3.2:3b", {
 let mapMemory = [];
 
 const parseAIResponse = (text) => {
-let thought = "생각을 읽을 수 없습니다.";
-let moves = [];
+  let thought = "생각을 읽을 수 없습니다.";
+  let moves = [];
 
-console.log("AI 원본 텍스트:", text);
+  console.log("AI 원본 텍스트:", text);
 
-try {
-const cleanText = text.replace(/json/g, "").replace(/ /g, "").trim();
-const jsonMatch = cleanText.match(/{[\s\S]*}/);
+  try {
+    const cleanText = text.replace(/json/g, "").replace(/ /g, "").trim();
+    const jsonMatch = cleanText.match(/{[\s\S]*}/);
 
-if (jsonMatch) {
-  const parsed = JSON.parse(jsonMatch[0]);
-  thought = parsed.thought || thought;
-  moves = parsed.moves || [];
-}
-} catch (e) {
-console.error("제이슨 파싱 에러:", e.message);
-}
-return { thought, moves };
+    if (jsonMatch) {
+      const parsed = JSON.parse(jsonMatch[0]);
+      thought = parsed.thought || thought;
+      moves = parsed.moves || [];
+    }
+  } catch (e) {
+    console.error("제이슨 파싱 에러:", e.message);
+  }
+  return { thought, moves };
 };
 
 app.post("/api/v1/maze/init", async (req, res) => {
@@ -58,7 +58,7 @@ ${mapStr}
 이 지도를 완벽하게 기억하고, 플레이어가 크리스탈을 모두 모아 출구로 나갈 수 있는 최단 경로를 안내하세요. 벽을 통과하는 경로를 절대로 생성하지 마세요.`)
     ];
 
-    console.log("OK");
+    console.log("지도 초기화 완료");
 
     return res.status(200).json({ message: "지도 기억 완료" });
   } catch (error) {

@@ -1,4 +1,13 @@
 /**
+ * Difficulty configuration — single source of truth for maze size and crystal count.
+ */
+const DIFFICULTY_CONFIG = {
+  easy:   { size: 11, crystals: 3  },
+  medium: { size: 17, crystals: 5  },
+  hard:   { size: 25, crystals: 10 }
+};
+
+/**
  * Game Core Logic
  */
 const Game = {
@@ -14,14 +23,13 @@ const Game = {
   async start(diff) {
     this.stop();
     UI.showLoading();
-    
-    const size = diff === 'easy' ? 11 : diff === 'medium' ? 17 : 25;
-    this.maze = this.generateMaze(size);
+
+    const config = DIFFICULTY_CONFIG[diff] || DIFFICULTY_CONFIG.medium;
+    this.maze = this.generateMaze(config.size);
     this.player = { x: 1, y: 1 };
     this.collected = 0;
-    
-    const cCount = diff === 'easy' ? 3 : diff === 'medium' ? 5 : 10;
-    this.crystals = this.placeItems('C', cCount);
+
+    this.crystals = this.placeItems('C', config.crystals);
     
     this.isActive = true;
     this.startTime = Date.now();
@@ -35,6 +43,7 @@ const Game = {
       });
       UI.setStatus("Neural Link Established", "var(--success)");
     } catch (e) {
+      console.error('AI request failed:', e);
       UI.setStatus("AI Offline", "var(--enemy)");
     }
 
@@ -54,6 +63,19 @@ const Game = {
     if (this.abortController) this.abortController.abort();
   },
 
+  /**
+   * Pure function — generates a perfect maze using iterative randomised DFS (recursive backtracker).
+   *
+   * Algorithm:
+   *   1. Start with a grid of walls ('#').
+   *   2. From cell (1,1), carve a path and recursively visit unvisited neighbours
+   *      two steps away (so walls between cells are preserved until explicitly carved).
+   *   3. Neighbours are shuffled randomly at each step, producing a different maze each call.
+   *   4. Place the exit ('E') at the bottom-right open cell (size-2, size-2).
+   *
+   * @param {number} size - Odd integer defining the grid dimensions (e.g. 11, 17, 25).
+   * @returns {string[][]} 2-D grid where '#' = wall, ' ' = path, 'E' = exit.
+   */
   generateMaze(size) {
     const grid = Array.from({length: size}, () => Array(size).fill('#'));
     const walk = (x, y) => {
@@ -90,6 +112,10 @@ const Game = {
     const input = document.getElementById('command');
     const cmd = input.value.trim();
     if (!cmd || !this.isActive) return;
+    if (cmd.length > 200) {
+      UI.setStatus("Command too long (max 200 chars)", "var(--enemy)");
+      return;
+    }
 
     UI.setBtnDisabled(true);
     this.abortController = new AbortController();
