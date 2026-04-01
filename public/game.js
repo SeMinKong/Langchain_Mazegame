@@ -22,7 +22,28 @@ const Game = {
 
   async start(diff) {
     this.stop();
-    UI.showLoading();
+    UI.showLoading("System Initializing...");
+    UI.setStatus("System Initialization...", "var(--secondary-text)");
+
+    // Wait for LLM to be ready
+    let ready = false;
+    while (!ready) {
+      try {
+        const res = await fetch('/api/v1/status');
+        const data = await res.json();
+        if (data.ready) ready = true;
+        else {
+          UI.showLoading("Ollama 모델 로딩 중 (GPU 로드 중)...");
+          UI.setStatus("Ollama 모델 로딩 중 (GPU 로드 중)...", "var(--secondary-text)");
+          await new Promise(r => setTimeout(r, 1000));
+        }
+      } catch (e) {
+        UI.showLoading("서버 대기 중...");
+        UI.setStatus("서버 대기 중...", "var(--secondary-text)");
+        await new Promise(r => setTimeout(r, 1000));
+      }
+    }
+    UI.showLoading("미로 생성 중...");
 
     const config = DIFFICULTY_CONFIG[diff] || DIFFICULTY_CONFIG.medium;
     this.maze = this.generateMaze(config.size);
@@ -41,7 +62,7 @@ const Game = {
         headers: {'Content-Type':'application/json'}, 
         body: JSON.stringify({map: this.maze}) 
       });
-      UI.setStatus("Neural Link Established", "var(--success)");
+      UI.setStatus("맵로딩 완료", "var(--success)");
     } catch (e) {
       console.error('AI request failed:', e);
       UI.setStatus("AI Offline", "var(--enemy)");
@@ -245,7 +266,10 @@ const UI = {
     document.getElementById('history').prepend(item);
   },
 
-  showLoading() { document.getElementById('loading-overlay').style.display = 'flex'; },
+  showLoading(text) { 
+    if (text) document.getElementById('loading-text').textContent = text;
+    document.getElementById('loading-overlay').style.display = 'flex'; 
+  },
   hideLoading() { document.getElementById('loading-overlay').style.display = 'none'; },
   
   updateDifficultyButtons(diff) {

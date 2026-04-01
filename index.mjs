@@ -13,15 +13,31 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.static("public"));
 
-const llm = await initChatModel("llama3.2:3b", {
-  modelProvider: "ollama",
-  baseUrl: "http://localhost:11434",
-  temperature: 0,
-  maxTokens: 200,
-  modelOptions: { 
-    top_k: 1
+let llm = null;
+let isLlmReady = false;
+
+// Async initialization
+const initLLM = async () => {
+  try {
+    llm = await initChatModel("llama3.2:3b", {
+      modelProvider: "ollama",
+      baseUrl: "http://localhost:11434",
+      temperature: 0,
+      maxTokens: 200,
+      modelOptions: { 
+        top_k: 1
+      }
+    });
+    console.log("Ollama 모델 로딩 시작 (GPU 로드 중)...");
+    await llm.invoke("Hello, model warmup protocol initiated.");
+    isLlmReady = true;
+    console.log("Ollama 모델 로딩 완료.");
+  } catch (error) {
+    console.error("LLM 초기화 에러:", error);
   }
-});
+};
+
+initLLM();
 
 let mapMemory = [];
 
@@ -46,7 +62,14 @@ const parseAIResponse = (text) => {
   return { thought, moves };
 };
 
+app.get("/api/v1/status", (req, res) => {
+  res.json({ ready: isLlmReady });
+});
+
 app.post("/api/v1/maze/init", async (req, res) => {
+  if (!isLlmReady) {
+    return res.status(503).json({ error: "AI 모델이 아직 준비되지 않았습니다. 잠시만 기다려주세요." });
+  }
   try {
     const { map } = req.body;
     const mapStr = map.map(row => row.join("")).join("\n");
