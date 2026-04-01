@@ -58,5 +58,8 @@ Access the game at `http://localhost:8000`.
 - **Enter Commands**: Type things like "move right 3 steps" or "find the nearest crystal".
 - **Goal**: Collect all crystals (💎) and reach the exit (🏁).
 
+> 💡 **Need more details?**
+> For specific API payloads, the DFS algorithm implementation, and LLM parameter choices, please refer to the [Detailed Manual (DETAILS.en.md)](./DETAILS.en.md).
+
 ---
 Built with LangChain & Local AI.
