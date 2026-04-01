@@ -49,7 +49,7 @@
 git clone <repository-url>
 cd Langchain_Mazegame
 npm install
-npm start
+node index.mjs
 ```
 `http://localhost:8000`에서 게임을 시작할 수 있습니다.
 
